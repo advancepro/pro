@@ -1,0 +1,60 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Customer List</title>
+    <base href="/"/>
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<h2>Your Customer List</h2>
+<div th:unless="${#lists.isEmpty(customers)}">
+    <dl th:each="customer : ${customers}">
+        <dt class="CustomerHeadline">
+            <span th:text="${customer.lastName}">LastName</span> by
+            <span th:text="${customer.city}">City</span>
+            (E-mail Address: <span th:text="${customer.emailAddress}">E-mail Address</span>)
+        </dt>
+        <dd class="customerWebPage">
+          <span th:if="${customer.webPage}"
+                th:text="${customer.webPage}">WebPage</span>
+            <span th:if="${book.description eq null}">
+                No description available</span>
+        </dd>
+    </dl>
+</div>
+<div th:if="${#lists.isEmpty(customers)}">
+    <p>You have no customer in your customers list</p>
+</div>
+
+<hr/>
+
+<h3>Add a customer</h3>
+<form method="POST">
+    <label for="firstName">FirstName:</label>
+    <input type="text" name="firstName" id="firstName" size="50"></input><br/>
+    <label for="lastName">LastName:</label>
+    <input type="text" name="lastName" id="lastName" size="50"></input><br/>
+    <label for="emailAddress">EmailAddress:</label>
+    <input type="text" name="emailAddress" id="emailAddress" size="15"></input><br/>
+    <label for="jobTitle">JobTitle:</label><br/>
+    <textarea name="jobTitle" cols="80" id="jobTitle" rows="5"></textarea><br/>
+    <label for="mobilePhone">MobilePhone:</label>
+    <input type="text" name="mobilePhone" id="mobilePhone" size="50"></input><br/>
+    <label for="city">City:</label>
+    <input type="text" name="city" id="city" size="50"></input><br/>
+    <label for="webPage">WebPage:</label>
+    <input type="text" name="webPage" id="webPage" size="50"></input><br/>
+
+
+</form>
+
+<h4 th:inline="text">You are signed in as: [[${#httpServletRequest.remoteUser}]]!</h4>
+
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+
+</body>
+</html>
